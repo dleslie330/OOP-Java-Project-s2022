@@ -26,8 +26,10 @@ public class Itemlist {
 //			lineReader = new BufferedReader(fr);
 //			String line = null;
 //			while ((line = lineReader.readLine())!=null) {
+//				int id = lineReader.read();
 //				String name = lineReader.readLine();
-//				String id = lineReader.readLine();
+//				double price = toDouble(lineReader.readLine());
+//				int stock = lineReader.read();
 //				if (line.equals("student")) {
 //					String gpaString = lineReader.readLine();
 //					addStudent(new Student(name,id,Double.parseDouble(gpaString)));

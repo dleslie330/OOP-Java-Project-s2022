@@ -9,19 +9,23 @@ public class Item {
 	private int stock;
 	
 	public Item() {
+		id = 0;
 		product = "No Item";
 		price = 0.00;
-		id = 0;
 		category = "No Info";
 		stock = 0;
 	}
 	
-	public Item(String product, double price, int id, String category, int stock) {
+	public Item(int id, String product, double price, String category, int stock) {
+		this.id = id;
 		this.product = product;
 		this.price = price;
-		this.id = id;
 		this.category = category;
 		this.stock = stock;
+	}
+	
+	public void setID(int id) {
+		this.id = id;
 	}
 	
 	public void setProduct(String product) {
@@ -32,16 +36,16 @@ public class Item {
 		this.price = price;
 	}
 	
-	public void setID(int id) {
-		this.id = id;
-	}
-	
 	public void setCategory(String category) {
 		this.category = category;
 	}
 	
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+	
+	public int getID() {
+		return id;
 	}
 	
 	public String getProduct() {
@@ -52,16 +56,18 @@ public class Item {
 		return price;
 	}
 	
-	public int getID() {
-		return id;
-	}
-	
 	public String getCategory() {
 		return category;
 	}
 	
 	public int getStock() {
 		return stock;
+	}
+	
+	public String toString() {
+		String item = id + " " + product + " " + price + " " + category + " " + stock;
+		
+		return item;
 	}
 	
 }
