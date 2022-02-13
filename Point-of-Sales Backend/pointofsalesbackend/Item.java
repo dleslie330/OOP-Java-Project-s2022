@@ -64,6 +64,18 @@ public class Item {
 		return stock;
 	}
 	
+	public void addStock(int num) {
+		for (int i = 1; i <= num; i++) {
+			stock++;
+		}
+	}
+	
+	public void removeStock(int num) {
+		for (int i = 1; i <= num; i++) {
+			stock--;
+		}
+	}
+	
 	public String toString() {
 		String item = id + " " + product + " " + price + " " + category + " " + stock;
 		
