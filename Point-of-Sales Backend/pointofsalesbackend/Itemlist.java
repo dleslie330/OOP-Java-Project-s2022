@@ -17,6 +17,7 @@ public class Itemlist {
 	public Itemlist() {
 		fileName = "data file";
 		inventory = new HashMap<Integer, Item>();
+		readFile();
 	}
 	
 	private void readFile () {
