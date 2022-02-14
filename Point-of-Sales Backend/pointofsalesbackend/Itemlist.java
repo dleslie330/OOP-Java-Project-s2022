@@ -2,11 +2,12 @@ package pointofsalesbackend;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Itemlist {
@@ -15,30 +16,29 @@ public class Itemlist {
 	HashMap<Integer, Item> inventory;
 	
 	public Itemlist() {
-		fileName = "data file";
+		fileName = "./pointofsalesbackend/data.txt";
 		inventory = new HashMap<Integer, Item>();
 		readFile();
 	}
 	
 	private void readFile () {
 		BufferedReader lineReader = null;
+
 		try {
 			FileReader fr = new FileReader(fileName);
 			lineReader = new BufferedReader(fr);
 			String line = null;
 			while ((line = lineReader.readLine())!=null) {
-				int id = lineReader.read();
-				lineReader.readLine();
+				int id = Integer.parseInt(line);
 				String name = lineReader.readLine();
-				double price = lineReader.read();
-				lineReader.readLine();
+				double price = Double.parseDouble(lineReader.readLine());
 				String description = lineReader.readLine();
-				int stock = lineReader.read();
-				lineReader.readLine();
+				int stock = Integer.parseInt(lineReader.readLine());
 				inventory.put(id, new Item(id, name, price, description, stock));
 		}
 		} catch (Exception e) {
 			System.err.println("there was a problem with the file reader, try different read type.");
+			e.printStackTrace();
 			try {
 				lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
 				String line = null;
@@ -80,14 +80,12 @@ public class Itemlist {
 		return inventory.get(id);
 	}
 	
-	public int[] collectionOfProducts(String category) {
-		int size = 0;
-		int collection[] = new int[size];
+	public ArrayList<Item> collectionOfProducts(String category) {
+		ArrayList<Item> collection = new ArrayList<Item>();
 		
 		for (int i : inventory.keySet()) {
-			if (inventory.get(i).getCategory().equals(category)) {
-				collection[size] = inventory.get(i).getID();
-				size++;
+			if (inventory.get(i).getCategory().contains(category)) {
+				collection.add(inventory.get(i));
 			}
 		}
 			
@@ -98,18 +96,15 @@ public class Itemlist {
 		return inventory.remove(id);
 	}
 	
-	public int[] suggestion(Item item) {
-		int size = 0;
-		int collection[] = new int[size];
+	public ArrayList<Item> suggestion(Item item) {
+		ArrayList<Item> collection = new ArrayList<Item>();
 		
 		for (int i : inventory.keySet()) {
 			if (inventory.get(i).getProduct().contains(item.getProduct()) || item.getProduct().contains(inventory.get(i).getProduct())) {
-				collection[size] = inventory.get(i).getID();
-				size++;
+				collection.add(inventory.get(i));
 			}
 			else if (inventory.get(i).getCategory().contains(item.getCategory()) || item.getCategory().contains(inventory.get(i).getCategory())) {
-				collection[size] = inventory.get(i).getID();
-				size++;
+				collection.add(inventory.get(i));
 			}
 		}
 		
