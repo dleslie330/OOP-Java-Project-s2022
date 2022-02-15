@@ -1,3 +1,5 @@
+//Dakota Leslie
+//Object Oriented Software Development in Java
 package pointofsalesbackend;
 
 import java.io.BufferedReader;
@@ -12,15 +14,17 @@ import java.util.HashMap;
 
 public class Itemlist {
 	
-	private String fileName;
-	HashMap<Integer, Item> inventory;
+	private String fileName; //the file that is initially read by the program
+	HashMap<Integer, Item> inventory; //The collection of items
 	
+	//default constructor
 	public Itemlist() {
 		fileName = "./pointofsalesbackend/data.txt";
 		inventory = new HashMap<Integer, Item>();
-		readFile();
+		readFile(); //reads file on initialization
 	}
 	
+	//reads the file and turns the information into an item object and stores each item into the hashmap collection
 	private void readFile () {
 		BufferedReader lineReader = null;
 
@@ -72,19 +76,25 @@ public class Itemlist {
 		}
 	} // end of readFile method
 	
+	//adds a product to the hashmap
 	public void addProduct (Item product) {
-		inventory.put(product.getID(), product);
+		if (inventory.containsKey(product.getID())) {} //checks if the id (item) is already in the hashmap 
+		else {
+			inventory.put(product.getID(), product);
+		}
 	}
 	
+	//finds a product in the hashmap
 	public Item findProduct(int id) {
 		return inventory.get(id);
 	}
 	
+	//returns an array list of items with similar "categories"
 	public ArrayList<Item> collectionOfProducts(String category) {
 		ArrayList<Item> collection = new ArrayList<Item>();
 		
 		for (int i : inventory.keySet()) {
-			if (inventory.get(i).getCategory().contains(category)) {
+			if (inventory.get(i).getCategory().contains(category) || category.contains(inventory.get(i).getCategory())) { //checks if the passed in category is within the item category or vice versa (checking for similarity)
 				collection.add(inventory.get(i));
 			}
 		}
@@ -92,45 +102,52 @@ public class Itemlist {
 		return collection;
 	}
 	
+	//removes an item from the hashmap
 	public Item removeProduct(int id) {
 		return inventory.remove(id);
 	}
 	
+	//returns an array list of items that are similar to the item that is passed in
 	public ArrayList<Item> suggestion(Item item) {
 		ArrayList<Item> collection = new ArrayList<Item>();
 		
 		for (int i : inventory.keySet()) {
-			if (inventory.get(i).getProduct().contains(item.getProduct()) || item.getProduct().contains(inventory.get(i).getProduct())) {
+			if (inventory.get(i).getProduct().contains(item.getProduct()) || item.getProduct().contains(inventory.get(i).getProduct())) { //checks if the product names are similar
 				collection.add(inventory.get(i));
 			}
-			else if (inventory.get(i).getCategory().contains(item.getCategory()) || item.getCategory().contains(inventory.get(i).getCategory())) {
+			else if (inventory.get(i).getCategory().contains(item.getCategory()) || item.getCategory().contains(inventory.get(i).getCategory())) { //checks if the categories are similar (like collectionOfProducts function)
 				collection.add(inventory.get(i));
 			}
 		}
 		
-		return collection;
+		return collection; //returns if the names are similar or if the categories are similar
 	}
 	
+	//calls the removeStock function in the Item class for someone to purchase any amount of an item within the hashmap
 	public void purchase(int id, int num) {
 		inventory.get(id).removeStock(num);
 	}
 	
+	//calls the addStock function in the Item class for someone to restock any amount of an item within the hashmap
 	public void restock(int id, int num) {
 		inventory.get(id).addStock(num);
 	}
 	
+	//writes the hashmap into the data file
 	public void writeFile () {
 		// overloaded method: this calls doWrite with file used to read data
 		// use this for saving data between runs
 		doWrite(fileName);
 	} // end of writeFile method
 	
+	//writes the hashmap into a new data file if needed
 	public void writeFile(String altFileName) {
 		// overloaded method: this calls doWrite with different file name 
 		// use this for testing write
 		doWrite(altFileName);		
 	}// end of writeFile method
 	
+	//the write method that puts the information of each item into the data file
 	private void doWrite(String fn) {
 		// this method writes all of the data in the persons array to a file
 		try
@@ -155,5 +172,16 @@ public class Itemlist {
 			System.err.println("Didn't save to " + fn);
 		}
 	}	
+	
+	//string representation of data
+	public String toString() {
+		String itemList = "";
+		
+		for (int i : inventory.keySet()) {
+			itemList = inventory.get(i) + "; ";
+		}
+		
+		return itemList;
+	}
 
 }

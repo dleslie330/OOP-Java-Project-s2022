@@ -1,3 +1,23 @@
+64
+tortilla
+2.78
+mexican or bread
+12
+32
+deoderant
+2.0
+hygeine
+2
+16
+bread
+1.5
+bread
+65
+0
+banana
+0.68
+fruit
+999
 1
 Beans
 2.5
@@ -8,3 +28,13 @@ Potatoes
 2.3
 vegetable
 35
+10
+eggs
+4.87
+breakfast or baking
+400
+13
+flour
+4.99
+baking
+20
