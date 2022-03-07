@@ -22,9 +22,9 @@ public class Item {
 	//main constructor
 	public Item(int id, String product, double price, String category, int stock) {
 		this.id = id;
-		this.product = product;
+		this.product = product.toLowerCase();
 		this.price = price;
-		this.category = category;
+		this.category = category.toLowerCase();
 		this.stock = stock;
 	}
 	
@@ -35,7 +35,7 @@ public class Item {
 	
 	//sets the product variable
 	public void setProduct(String product) {
-		this.product = product;
+		this.product = product.toLowerCase();
 	}
 	
 	//sets the price variable
@@ -45,7 +45,7 @@ public class Item {
 	
 	//sets the category variable
 	public void setCategory(String category) {
-		this.category = category;
+		this.category = category.toLowerCase();
 	}
 	
 	//sets the stock variable

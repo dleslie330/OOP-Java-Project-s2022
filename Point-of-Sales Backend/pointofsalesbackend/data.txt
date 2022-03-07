@@ -8,26 +8,21 @@ deoderant
 2.0
 hygeine
 2
-16
-bread
-1.5
-bread
-65
 0
 banana
 0.68
 fruit
 999
 1
-Beans
+beans
 2.5
 canned vegetable
 100
 4
-Potatoes
+potatoes
 2.3
 vegetable
-35
+30
 10
 eggs
 4.87
@@ -38,3 +33,63 @@ flour
 4.99
 baking
 20
+16
+bread
+1.5
+bread
+65
+50
+water
+0.99
+drink
+100
+51
+dr pepper
+2.5
+drink or soda
+100
+52
+sprite
+2.5
+drink or soda
+100
+53
+coke
+2.5
+drink or soda
+100
+54
+mr pibb
+2.5
+drink or soda
+100
+55
+dr thunder
+2.5
+drink or soda
+100
+56
+fanta orange
+2.5
+drink or soda
+100
+57
+fanta pineapple
+2.5
+drink or soda
+100
+58
+fanta grape
+2.5
+drink or soda
+100
+59
+cream soda
+2.5
+drink or soda
+100
+60
+orange gatorade
+2.5
+drink
+100

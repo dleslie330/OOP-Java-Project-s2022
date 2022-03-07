@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class Itemlist {
 	
@@ -90,11 +91,16 @@ public class Itemlist {
 	}
 	
 	//returns an array list of items with similar "categories"
-	public ArrayList<Item> collectionOfProducts(String category) {
-		ArrayList<Item> collection = new ArrayList<Item>();
-		
+	public Vector<Item> collectionOfProducts(String category) {
+		Vector<Item> collection = new Vector<Item>();
+		if (category.equals("all") || category.equals("All")) {
+			for (int i: inventory.keySet()) {
+				collection.add(inventory.get(i));
+			}
+			return collection;
+		}
 		for (int i : inventory.keySet()) {
-			if (inventory.get(i).getCategory().contains(category) || category.contains(inventory.get(i).getCategory())) { //checks if the passed in category is within the item category or vice versa (checking for similarity)
+			if (inventory.get(i).getCategory().contains(category) || category.contains(inventory.get(i).getCategory()) || inventory.get(i).getProduct().contains(category) || category.contains(inventory.get(i).getProduct())) { //checks if the passed in category is within the item category or vice versa (checking for similarity)
 				collection.add(inventory.get(i));
 			}
 		}
