@@ -1,3 +1,5 @@
+//Dakota Leslie
+//Object Oriented Software Development in Java Spring 2022
 package pointofsalesbackend;
 
 import pointofsalesbackend.Itemlist;
@@ -14,16 +16,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainPanel extends JPanel{
-	private Itemlist myItems = new Itemlist();
-	private Vector<Item> cart = new Vector<Item>();
-	private JTextField textField;
-	private JToolBar toolBar = new JToolBar();
-	private JList<Item> list = new JList<Item>();
-	private JScrollPane scrollPane = new JScrollPane();
-	private JRadioButton rdbtn1 = new JRadioButton();
-	private JRadioButton rdbtn2 = new JRadioButton();
-	private ButtonGroup group = new ButtonGroup();
-	private JSpinner spinner = new JSpinner();
+	private Itemlist myItems = new Itemlist(); //creates an item from the backend
+	private Vector<Item> cart = new Vector<Item>(); //stores the user's items selected for purchase
+	private JTextField textField; //textfield used as the search bar
+	private JToolBar toolBar = new JToolBar();//toolbar to hold important actions
+	private JList<Item> list = new JList<Item>();//list for user to select items
+	private JScrollPane scrollPane = new JScrollPane();//allows the user to scroll in the list if there are too many options to see in one instance
+	private JRadioButton rdbtn1 = new JRadioButton();//creates a radio button used for multiple things
+	private JRadioButton rdbtn2 = new JRadioButton();//creates a radio button used for multiple things
+	private ButtonGroup group = new ButtonGroup();//group for the radio buttons
+	private JSpinner spinner = new JSpinner();//spinner so the user can say how many items they want
 	
 	public MainPanel() {
 		super();
@@ -31,30 +33,31 @@ public class MainPanel extends JPanel{
 		
 		spinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
 		spinner.setBounds(45, 263, 30, 20);
-		add(spinner);
+		add(spinner);//creates the spinner component
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox();//creates the combo box component
 		Vector<Item> collection = myItems.collectionOfProducts("all");
 		ArrayList<String> products = new ArrayList<String>();
 		for (Item i: collection) {
 			products.add(i.getProduct());
 		}
-		comboBox.setModel(new DefaultComboBoxModel(products.toArray()));
+		comboBox.setModel(new DefaultComboBoxModel(products.toArray()));//fills the combobox with data from the backend
 		comboBox.setBounds(10, 11, 59, 22);
-		comboBox.addActionListener(new ActionListener() {
+		comboBox.addActionListener(new ActionListener() {//adds an action to the combobox
 			public void actionPerformed(ActionEvent e) {
 				remove(scrollPane);
 				remove(rdbtn1);
 				remove(rdbtn2);
+				repaint();//clears all components used in different actions
 				
 				String item = (String) comboBox.getSelectedItem();
 				Vector<Item> result = myItems.collectionOfProducts(item);
-				list = new JList<Item>(result);
+				list.setListData(result);
 				scrollPane.setBounds(46, 85, 300, 150);
 				add(scrollPane);
 				scrollPane.setViewportView(list);
 				
-				list.addListSelectionListener(new ListSelectionListener() {
+				list.addListSelectionListener(new ListSelectionListener() {//adds the radio buttons when an item is selected
 
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
@@ -79,27 +82,28 @@ public class MainPanel extends JPanel{
 		add(comboBox);
 		
 		toolBar.setBounds(87, 11, 353, 23);
-		add(toolBar);		
+		add(toolBar);		//adds the toolbar to the panel
 		
 		textField = new JTextField();
 		toolBar.add(textField);
-		textField.setColumns(10);
+		textField.setColumns(10);//adds the textfield to the toolbar
 		
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("Search");//implements a search function from teh GUI
 		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {//the action of searching
 				remove(scrollPane);
 				remove(rdbtn1);
 				remove(rdbtn2);
+				repaint();
 				
-				String search = textField.getText().toLowerCase();
+				String search = textField.getText().toLowerCase();//makes sure the search is in lowercase (the same case as backend)
 				Vector<Item> result = myItems.collectionOfProducts(search);
-				list = new JList<Item>(result);
+				list.setListData(result);//populates the list with the search results
 				scrollPane.setBounds(46, 85, 300, 150);
 				add(scrollPane);
 				scrollPane.setViewportView(list);
 				
-				list.addListSelectionListener(new ListSelectionListener() {
+				list.addListSelectionListener(new ListSelectionListener() {//same code as above
 
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
@@ -126,16 +130,18 @@ public class MainPanel extends JPanel{
 		toolBar.add(btnSearch);
 		
 		JSeparator separator = new JSeparator();
-		toolBar.add(separator);
+		toolBar.add(separator);//separates the toolbar buttons
 		
 		JButton btnCart = new JButton("Cart");
 		btnCart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {//allows the user to see the items that are in their cart
 				remove(scrollPane);
+				group.remove(rdbtn2);
 				remove(rdbtn1);
 				remove(rdbtn2);
+				repaint();
 				
-				list = new JList<Item>(cart);
+				list.setListData(cart);
 				scrollPane.setBounds(46, 85, 300, 150);
 				add(scrollPane);
 				scrollPane.setViewportView(list);
@@ -143,8 +149,6 @@ public class MainPanel extends JPanel{
 				rdbtn1 = new JRadioButton("Remove from Cart");
 				rdbtn1.setBounds(42, 235, 130, 23);
 				add(rdbtn1);
-				
-				group.add(rdbtn1);
 					
 				repaint();
 			}
@@ -155,24 +159,66 @@ public class MainPanel extends JPanel{
 		toolBar.add(separator_1);
 		
 		JButton btnCheckout = new JButton("Checkout");
+		btnCheckout.addActionListener(new ActionListener() {//allows the user to check out with the items in their cart
+			public void actionPerformed(ActionEvent e) {
+				remove(scrollPane);
+				remove(rdbtn1);
+				remove(rdbtn2);
+				repaint();
+				
+				double total = 0;
+				for(Item i: cart) {
+					total += i.getPrice();//finds the total cost of the cart
+				}
+				JOptionPane layeredPane = new JOptionPane("Checkout");//adds a pop-up that completes the checkout process
+				layeredPane.setBounds(40, 57, 355, 150);
+				layeredPane.setBackground(Color.white);
+				add(layeredPane);
+				
+				Label label = new Label("Total: " + total + ". Complete checkout?");//displays the total price of the cart
+				label.setBounds(62, 10, 280, 22);
+				layeredPane.add(label);
+				
+				Button button = new Button("Confirm");
+				button.setBounds(29, 49, 70, 22);
+				button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {// quits program if the user is done shopping
+						System.exit(0);
+					}
+				});
+				layeredPane.add(button);
+				
+				Button button_1 = new Button("Cancel");
+				button_1.setBounds(157, 49, 70, 22);
+				button_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {//allows the user to continue shopping
+						remove(layeredPane);
+						repaint();
+					}
+				});
+				layeredPane.add(button_1);
+				repaint();
+			}
+			
+		});
 		toolBar.add(btnCheckout);
 		
-		JLabel lblThankYouFor = new JLabel("Thank you for Shopping!");
+		JLabel lblThankYouFor = new JLabel("Thank you for Shopping!");//a nice message for users
 		lblThankYouFor.setBounds(10, 286, 149, 14);
 		add(lblThankYouFor);
 		
-		JButton btnAddItem = new JButton("Add Item");
+		JButton btnAddItem = new JButton("Continue");//allows the user to complete an action with selected item based on which radio button is selected
 		btnAddItem.setBounds(351, 266, 89, 23);
 		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (rdbtn1.isSelected() && rdbtn1.getText().equals("Add to Cart")) {
-					cart.add(new Item (list.getSelectedValue().getID(), list.getSelectedValue().getProduct(), list.getSelectedValue().getPrice(), list.getSelectedValue().getCategory(), (Integer)spinner.getValue()));
-					list.getSelectedValue().removeStock((Integer)spinner.getValue());
+				if (rdbtn1.isSelected() && rdbtn1.getText().equals("Add to Cart")) {//makes sure the user is wanting to add stuff to their cart
+					cart.add(new Item (list.getSelectedValue().getID(), list.getSelectedValue().getProduct(), list.getSelectedValue().getPrice(), list.getSelectedValue().getCategory(), (Integer)spinner.getValue()));//creates a new item in the cart as to keep the "stock" values separate
+					list.getSelectedValue().removeStock((Integer)spinner.getValue());//lowers the store's stock
 				}
-				else if (rdbtn2.isSelected()) {
+				else if (rdbtn2.isSelected()) {//adds stock to the store
 					list.getSelectedValue().addStock((Integer)spinner.getValue());
 				}
-				else if (rdbtn1.isSelected() && rdbtn1.getText().equals("Remove from Cart")) {
+				else if (rdbtn1.isSelected() && rdbtn1.getText().equals("Remove from Cart")) {//removes object from the user's cart and adds it back to the store's item. also makes sure to remove the item from the user's cart if there is zero of that item
 					list.getSelectedValue().removeStock((Integer) spinner.getValue());
 					myItems.findProduct(list.getSelectedValue().getID()).addStock((Integer)spinner.getValue());
 					if(list.getSelectedValue().getStock() == 0) {
@@ -181,7 +227,7 @@ public class MainPanel extends JPanel{
 					}
 				}
 				
-				remove(list);
+				remove(scrollPane);
 				remove(rdbtn1);
 				remove(rdbtn2);
 				
@@ -190,13 +236,12 @@ public class MainPanel extends JPanel{
 		});
 		add(btnAddItem);
 		
-		JLabel lblHowMany = new JLabel("How Many?");
+		JLabel lblHowMany = new JLabel("How Many?");//labels the spinner so the user knows what it is for
 		lblHowMany.setBounds(85, 266, 65, 14);
 		add(lblHowMany);
-		
 	}
 	
 	public void doClose() {
-		myItems.writeFile();
+		myItems.writeFile();//makes sure the file is updated when the program closes
 	}
 }
