@@ -2,27 +2,27 @@
 tortilla
 2.78
 mexican or bread
-12
+5
 32
 deoderant
 2.0
 hygeine
-2
+10
 0
 banana
 0.68
 fruit
-999
+980
 1
 beans
 2.5
 canned vegetable
-100
+88
 4
 potatoes
 2.3
 vegetable
-30
+15
 10
 eggs
 4.87
@@ -32,7 +32,7 @@ breakfast or baking
 flour
 4.99
 baking
-20
+14
 16
 bread
 1.5
